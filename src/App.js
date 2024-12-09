@@ -1,31 +1,74 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import "./App.css";
 
 const Father = styled.div`
   display: flex;
 `;
 
+// const Btn = styled.button`
+//   color: white;
+//   background-color: tomato;
+//   border: 0;
+//   border-radius: 15px;
+// `;
+
+// const Input = styled.input.attrs({ required: true })`
+//   background-color: tomato;
+// `;
+
+const rotationAnimation = keyframes`
+  /* from{
+    transform: rotate(0deg);
+  }to{
+    transform: rotate(360deg);
+  } */
+  0%{
+    transform: rotate(0deg);
+    border-radius: 0;
+  }
+  50%{
+    transform: rotate(360deg);
+    border-radius: 100px;
+  }
+  100%{
+    transform: rotate(0deg);
+    border-radius: 0;
+  }
+`;
+
 const Box = styled.div`
-  background-color: ${(props) => props.bgColor};
-  width: 100px;
-  height: 100px;
-`;
+  width: 200px;
+  height: 200px;
+  background-color: tomato;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: ${rotationAnimation} 5s linear infinite;
 
-const Text = styled.span`
-  color: white;
-`;
+  span {
+    font-size: 36px;
+    transition: 0.3s ease;
 
-const Circle = styled(Box)`
-  border-radius: 50px;
+    &:hover {
+      font-size: 72px;
+    }
+    &:active {
+      opacity: 0;
+    }
+  }
 `;
 
 function App() {
   return (
     <Father>
-      <Box bgColor="teal">
-        <Text>Sample Text</Text>
+      {/* <Btn>Login</Btn>
+      <Btn as="a" href="/">w
+        Login
+      </Btn>
+      <Input /> */}
+      <Box>
+        <span>🌎</span>
       </Box>
-      <Circle bgColor="tomato" />
     </Father>
   );
 }
