@@ -2,6 +2,12 @@ import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
 
 const GlobalStyle = createGlobalStyle`
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -53,7 +59,7 @@ table {
   box-sizing: border-box;
 }
 body{
-  font-family: "Source Sans 3", sans-serif;
+  font-family: "Source Sans 3",'Pretendard-Regular', sans-serif;
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor}
 }
