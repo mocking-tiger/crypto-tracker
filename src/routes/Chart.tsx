@@ -16,11 +16,12 @@ interface IHistorical {
 interface ChartProps {
   coinId: string;
 }
-
 export default function Chart({ coinId }: ChartProps) {
   const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () =>
     fetchCoinHistory(coinId)
   );
+  const extractedData = data?.map((price) => price.close) ?? [];
+
   return (
     <div>
       {isLoading ? (
@@ -30,14 +31,42 @@ export default function Chart({ coinId }: ChartProps) {
           type="line"
           series={[
             {
-              name: "sales",
-              data: [1, 2, 3, 4, 5],
+              name: "Price",
+              data: extractedData ?? [],
             },
           ]}
           options={{
             chart: {
-              height: 500,
+              height: 300,
               width: 500,
+              toolbar: {
+                show: false,
+              },
+              background: "transparent",
+            },
+            grid: {
+              show: false,
+            },
+            xaxis: {
+              labels: {
+                show: false,
+              },
+              axisTicks: {
+                show: false,
+              },
+              axisBorder: {
+                show: false,
+              },
+            },
+            yaxis: {
+              show: false,
+            },
+            stroke: {
+              curve: "smooth",
+              width: 3,
+            },
+            theme: {
+              mode: "dark",
             },
           }}
         />
