@@ -20,10 +20,10 @@ export default function Chart({ coinId }: ChartProps) {
   const RECENT_14DAYS = -14;
   const { isLoading, data } = useQuery<IHistorical[]>(
     ["ohlcv", coinId],
-    () => fetchCoinHistory(coinId),
-    {
-      refetchInterval: 5000,
-    }
+    () => fetchCoinHistory(coinId)
+    // {
+    //   refetchInterval: 5000,
+    // }
   );
   const extractedData =
     data?.map((price) => price.close).slice(RECENT_14DAYS) ?? [];
