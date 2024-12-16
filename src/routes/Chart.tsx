@@ -17,11 +17,16 @@ interface ChartProps {
   coinId: string;
 }
 export default function Chart({ coinId }: ChartProps) {
-  const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () =>
-    fetchCoinHistory(coinId)
+  const RECENT_14DAYS = -14;
+  const { isLoading, data } = useQuery<IHistorical[]>(
+    ["ohlcv", coinId],
+    () => fetchCoinHistory(coinId),
+    {
+      refetchInterval: 5000,
+    }
   );
-  const extractedData = data?.map((price) => price.close) ?? [];
-
+  const extractedData =
+    data?.map((price) => price.close).slice(RECENT_14DAYS) ?? [];
   return (
     <div>
       {isLoading ? (
@@ -57,6 +62,13 @@ export default function Chart({ coinId }: ChartProps) {
               axisBorder: {
                 show: false,
               },
+              categories: data
+                ?.slice(RECENT_14DAYS)
+                .map((price) =>
+                  new Date(Number(price.time_close) * 1000)
+                    .toUTCString()
+                    .slice(0, 16)
+                ),
             },
             yaxis: {
               show: false,
@@ -67,6 +79,16 @@ export default function Chart({ coinId }: ChartProps) {
             },
             theme: {
               mode: "dark",
+            },
+            fill: {
+              type: "gradient",
+              gradient: { gradientToColors: ["#0be881"], stops: [0, 100] },
+            },
+            colors: ["0fbcf9"],
+            tooltip: {
+              y: {
+                formatter: (value) => `$ ${value.toFixed(2)}`,
+              },
             },
           }}
         />

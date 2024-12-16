@@ -1,3 +1,3 @@
 export default function Price() {
-  return <h1>price</h1>;
+  return <h1>WIP</h1>;
 }

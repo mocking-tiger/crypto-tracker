@@ -1,6 +1,7 @@
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { fetchCoins } from "../api";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -69,32 +70,37 @@ export default function Coins() {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
 
   return (
-    <Container>
-      <Header>
-        <Title>코인</Title>
-      </Header>
-      {isLoading ? (
-        <Loader>Loading...</Loader>
-      ) : (
-        <CoinsList>
-          {data?.slice(0, 100).map((coin) => (
-            <Coin key={coin.id}>
-              <Link
-                to={{
-                  pathname: `/${coin.id}`,
-                  state: { name: coin.name },
-                }}
-              >
-                <Img
-                  src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}
-                  alt="coin-image"
-                />
-                {coin.name} &rarr;
-              </Link>
-            </Coin>
-          ))}
-        </CoinsList>
-      )}
-    </Container>
+    <HelmetProvider>
+      <Container>
+        <Helmet>
+          <title>가상화폐 트래커</title>
+        </Helmet>
+        <Header>
+          <Title>코인 목록</Title>
+        </Header>
+        {isLoading ? (
+          <Loader>Loading...</Loader>
+        ) : (
+          <CoinsList>
+            {data?.slice(0, 100).map((coin) => (
+              <Coin key={coin.id}>
+                <Link
+                  to={{
+                    pathname: `/${coin.id}`,
+                    state: { name: coin.name },
+                  }}
+                >
+                  <Img
+                    src={`https://cryptocurrencyliveprices.com/img/${coin.id}.png`}
+                    alt="coin-image"
+                  />
+                  {coin.name} &rarr;
+                </Link>
+              </Coin>
+            ))}
+          </CoinsList>
+        )}
+      </Container>
+    </HelmetProvider>
   );
 }
