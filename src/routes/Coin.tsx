@@ -12,6 +12,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import styled from "styled-components";
 import Price from "./Price";
 import Chart from "./Chart";
+import Menu from "../assets/menu.png";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -24,6 +25,7 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 const Title = styled.h1`
@@ -80,6 +82,14 @@ const Tab = styled.span<{ $isActive: boolean }>`
   a {
     display: block;
   }
+`;
+
+const Hamburger = styled.img`
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 33%;
+  left: 0;
 `;
 
 // 스타일드 컴포넌트 영역 끝
@@ -175,6 +185,9 @@ export default function Coin() {
           </title>
         </Helmet>
         <Header>
+          <Link to="/">
+            <Hamburger src={Menu} alt="목록으로" />
+          </Link>
           <Title>
             {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
           </Title>
