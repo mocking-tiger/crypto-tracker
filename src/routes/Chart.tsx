@@ -15,8 +15,9 @@ interface IHistorical {
 
 interface ChartProps {
   coinId: string;
+  isDark?: boolean;
 }
-export default function Chart({ coinId }: ChartProps) {
+export default function Chart({ coinId, isDark }: ChartProps) {
   const RECENT_14DAYS = -14;
   const { isLoading, data } = useQuery<IHistorical[]>(
     ["ohlcv", coinId],
@@ -78,7 +79,7 @@ export default function Chart({ coinId }: ChartProps) {
               width: 3,
             },
             theme: {
-              mode: "dark",
+              mode: isDark ? "dark" : "light",
             },
             fill: {
               type: "gradient",

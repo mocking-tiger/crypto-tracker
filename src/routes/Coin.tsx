@@ -13,6 +13,7 @@ import styled from "styled-components";
 import Price from "./Price";
 import Chart from "./Chart";
 import Menu from "../assets/menu.png";
+import { IRouterProps } from "../Router";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -157,7 +158,7 @@ interface PriceData {
   };
 }
 
-export default function Coin() {
+export default function Coin({ isDark }: IRouterProps) {
   const chartMatch = useRouteMatch("/:coinId/chart");
   const priceMatch = useRouteMatch("/:coinId/price");
   const { coinId } = useParams<RouteParams>();
@@ -207,7 +208,7 @@ export default function Coin() {
               </OverviewItem>
               <OverviewItem>
                 <span>Price:</span>
-                <span>{tickersData?.quotes.USD.price.toFixed(2)}</span>
+                <span>{tickersData?.quotes?.USD?.price?.toFixed(2)}</span>
               </OverviewItem>
             </Overview>
             <Description>{infoData?.description}</Description>
@@ -234,7 +235,7 @@ export default function Coin() {
                 <Price />
               </Route>
               <Route path={`/:coinId/chart`}>
-                <Chart coinId={coinId} />
+                <Chart coinId={coinId} isDark={isDark} />
               </Route>
             </Switch>
           </>

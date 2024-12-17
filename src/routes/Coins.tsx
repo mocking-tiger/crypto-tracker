@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { fetchCoins } from "../api";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import styled from "styled-components";
+import { IRouterProps } from "../Router";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -15,15 +16,17 @@ const Header = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 const CoinsList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.cardBgColor};
+  color: ${(props) => props.theme.textColor};
   margin-bottom: 10px;
   padding: 5px;
+  border: 1px solid white;
   border-radius: 15px;
   a {
     padding: 20px;
@@ -54,6 +57,14 @@ const Img = styled.img`
   margin-right: 10px;
 `;
 
+const ThemeButton = styled.button`
+  background-color: whitesmoke;
+  color: ${(props) => props.theme.accentColor};
+  position: absolute;
+  top: 33%;
+  right: 0;
+`;
+
 // 스타일드 컴포넌트 영역 끝
 
 interface ICoin {
@@ -66,8 +77,10 @@ interface ICoin {
   type: string;
 }
 
-export default function Coins() {
-  const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
+export default function Coins({ toggleDark }: IRouterProps) {
+  const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins, {
+    staleTime: 1000 * 60 * 60,
+  });
 
   return (
     <HelmetProvider>
@@ -77,6 +90,7 @@ export default function Coins() {
         </Helmet>
         <Header>
           <Title>코인 목록</Title>
+          <ThemeButton onClick={toggleDark}>theme</ThemeButton>
         </Header>
         {isLoading ? (
           <Loader>Loading...</Loader>
