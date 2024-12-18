@@ -1,9 +1,8 @@
+import styled from "styled-components";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { fetchCoins } from "../api";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import styled from "styled-components";
-import { IRouterProps } from "../Router";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -77,7 +76,7 @@ interface ICoin {
   type: string;
 }
 
-export default function Coins({ toggleDark }: IRouterProps) {
+export default function Coins() {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins, {
     staleTime: 1000 * 60 * 60,
   });
@@ -90,7 +89,7 @@ export default function Coins({ toggleDark }: IRouterProps) {
         </Helmet>
         <Header>
           <Title>코인 목록</Title>
-          <ThemeButton onClick={toggleDark}>theme</ThemeButton>
+          <ThemeButton onClick={() => {}}>theme</ThemeButton>
         </Header>
         {isLoading ? (
           <Loader>Loading...</Loader>

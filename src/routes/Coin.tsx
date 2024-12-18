@@ -1,3 +1,7 @@
+import styled from "styled-components";
+import Price from "./Price";
+import Chart from "./Chart";
+import Menu from "../assets/menu.png";
 import {
   Link,
   Route,
@@ -9,11 +13,6 @@ import {
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import styled from "styled-components";
-import Price from "./Price";
-import Chart from "./Chart";
-import Menu from "../assets/menu.png";
-import { IRouterProps } from "../Router";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -158,7 +157,7 @@ interface PriceData {
   };
 }
 
-export default function Coin({ isDark }: IRouterProps) {
+export default function Coin() {
   const chartMatch = useRouteMatch("/:coinId/chart");
   const priceMatch = useRouteMatch("/:coinId/price");
   const { coinId } = useParams<RouteParams>();
@@ -235,7 +234,7 @@ export default function Coin({ isDark }: IRouterProps) {
                 <Price />
               </Route>
               <Route path={`/:coinId/chart`}>
-                <Chart coinId={coinId} isDark={isDark} />
+                <Chart coinId={coinId} />
               </Route>
             </Switch>
           </>
