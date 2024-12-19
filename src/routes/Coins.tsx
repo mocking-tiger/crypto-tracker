@@ -3,6 +3,8 @@ import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { fetchCoins } from "../api";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -77,6 +79,7 @@ interface ICoin {
 }
 
 export default function Coins() {
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins, {
     staleTime: 1000 * 60 * 60,
   });
@@ -89,7 +92,9 @@ export default function Coins() {
         </Helmet>
         <Header>
           <Title>코인 목록</Title>
-          <ThemeButton onClick={() => {}}>theme</ThemeButton>
+          <ThemeButton onClick={() => setDarkAtom((prev) => !prev)}>
+            theme
+          </ThemeButton>
         </Header>
         {isLoading ? (
           <Loader>Loading...</Loader>
