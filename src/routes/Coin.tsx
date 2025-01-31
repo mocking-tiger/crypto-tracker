@@ -1,14 +1,11 @@
 import styled from "styled-components";
-import Price from "./Price";
-import Chart from "./Chart";
 import Menu from "../assets/menu.png";
 import {
   Link,
-  Route,
-  Switch,
+  Outlet,
   useLocation,
+  useMatch,
   useParams,
-  useRouteMatch,
 } from "react-router-dom";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
@@ -94,14 +91,6 @@ const Hamburger = styled.img`
 
 // 스타일드 컴포넌트 영역 끝
 
-interface RouteParams {
-  coinId: string;
-}
-
-interface RouteState {
-  name: string;
-}
-
 interface InfoData {
   id: string;
   name: string;
@@ -158,18 +147,21 @@ interface PriceData {
 }
 
 export default function Coin() {
-  const chartMatch = useRouteMatch("/:coinId/chart");
-  const priceMatch = useRouteMatch("/:coinId/price");
-  const { coinId } = useParams<RouteParams>();
-  const { state } = useLocation<RouteState>();
+  // useRouteMatch => useMatch로 변경
+  // const chartMatch = useRouteMatch("/:coinId/chart");
+  // const priceMatch = useRouteMatch("/:coinId/price");
+  const chartMatch = useMatch("/:coinId/chart");
+  const priceMatch = useMatch("/:coinId/price");
+  const { coinId } = useParams();
+  const { state } = useLocation();
 
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
-    () => fetchCoinInfo(coinId)
+    () => fetchCoinInfo(coinId!)
   );
   const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
     ["tickers", coinId],
-    () => fetchCoinTickers(coinId)
+    () => fetchCoinTickers(coinId!)
     // {
     //   refetchInterval: 5000,
     // }
@@ -229,14 +221,7 @@ export default function Coin() {
                 <Link to={`/${coinId}/price`}>Price</Link>
               </Tab>
             </Tabs>
-            <Switch>
-              <Route path={`/:coinId/price`}>
-                <Price />
-              </Route>
-              <Route path={`/:coinId/chart`}>
-                <Chart coinId={coinId} />
-              </Route>
-            </Switch>
+            <Outlet />
           </>
         )}
       </Container>

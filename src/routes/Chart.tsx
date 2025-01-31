@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { fetchCoinHistory } from "../api";
 import { useRecoilValue } from "recoil";
 import { isDarkAtom } from "../atoms";
+import { useParams } from "react-router-dom";
 
 interface IHistorical {
   time_open: string;
@@ -15,16 +16,14 @@ interface IHistorical {
   market_cap: number;
 }
 
-interface ChartProps {
-  coinId: string;
-}
-
-export default function Chart({ coinId }: ChartProps) {
+export default function Chart() {
   const RECENT_14DAYS = -14;
   const isDark = useRecoilValue(isDarkAtom);
+  const { coinId } = useParams();
+  console.log(coinId);
   const { isLoading, data } = useQuery<IHistorical[]>(
     ["ohlcv", coinId],
-    () => fetchCoinHistory(coinId)
+    () => fetchCoinHistory(coinId!)
     // {
     //   refetchInterval: 5000,
     // }
