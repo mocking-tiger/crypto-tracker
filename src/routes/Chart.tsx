@@ -20,7 +20,6 @@ export default function Chart() {
   const RECENT_14DAYS = -14;
   const isDark = useRecoilValue(isDarkAtom);
   const { coinId } = useParams();
-  console.log(coinId);
   const { isLoading, data } = useQuery<IHistorical[]>(
     ["ohlcv", coinId],
     () => fetchCoinHistory(coinId!)
